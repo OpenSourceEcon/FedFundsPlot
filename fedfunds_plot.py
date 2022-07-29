@@ -234,43 +234,59 @@ def ffrate_plot(beg_date="earliest", end_date="most_recent",
         x='Date', y1='ffr_targ_low', y2='ffr_targ_high', source=ffrates_cds,
         color='red', alpha=0.3, muted_alpha=0.15
     )
-    # Create recession bars
-    recession_data_length = len(recession_df['Peak'])
-    for x in range(recession_data_length):
-        peak_day = recession_df['Peak'][x]
-        trough_day = recession_df['Trough'][x]
-        # Recession that started before begin date but end after begin date
-        if (peak_day < beg_date and trough_day >= beg_date and
-            trough_day <= end_date):
-            rec_bar = fig.patch(x=[beg_date, trough_day, trough_day, beg_date],
-                                y=[-100, -100, 2 * max_rate, 2 * max_rate],
-                                fill_color='gray',
-                                fill_alpha=0.3,
-                                line_width=0)
 
-        # Recesssions completely within begin date and end date
-        elif (peak_day >= beg_date and trough_day <= end_date):
-            rec_bar = fig.patch(x=[peak_day, trough_day, trough_day, peak_day],
-                                y=[-100, -100, 2 * max_rate, 2 * max_rate],
-                                fill_color='gray',
-                                fill_alpha=0.3,
-                                line_width=0)
+    if recession_bars:
+        # Create recession bars
+        recession_data_length = len(recession_df['Peak'])
+        for x in range(recession_data_length):
+            peak_day = recession_df['Peak'][x]
+            trough_day = recession_df['Trough'][x]
+            # Recession that started before begin date but end after begin date
+            if (peak_day < beg_date and trough_day >= beg_date and
+                trough_day <= end_date):
+                rec_bar = fig.patch(
+                    x=[beg_date, trough_day, trough_day, beg_date],
+                    y=[-100, -100, 2 * max_rate, 2 * max_rate],
+                    fill_color='gray',
+                    fill_alpha=0.3,
+                    line_width=0
+                )
 
-        # Recession that started after begin date but end after end date
-        elif (peak_day >= beg_date and peak_day <= end_date and
-              trough_day > end_date):
-            rec_bar = fig.patch(x=[peak_day, end_date, end_date, peak_day],
-                                y=[-100, -100, 2 * max_rate, 2 * max_rate],
-                                fill_color='gray',
-                                fill_alpha=0.3,
-                                line_width=0)
+            # Recesssions completely within begin date and end date
+            elif (peak_day >= beg_date and trough_day <= end_date):
+                rec_bar = fig.patch(
+                    x=[peak_day, trough_day, trough_day, peak_day],
+                    y=[-100, -100, 2 * max_rate, 2 * max_rate],
+                    fill_color='gray',
+                    fill_alpha=0.3,
+                    line_width=0
+                )
 
-    # Add legend
-    legend = Legend(items=[("effective rate", [ffr_effective]),
-                           ("target rate", [ffr_targ]),
-                           ("target range", [ffr_range]),
-                           ("Recession", [rec_bar])],
-                    location="center")
+            # Recession that started after begin date but end after end date
+            elif (peak_day >= beg_date and peak_day <= end_date and
+                trough_day > end_date):
+                rec_bar = fig.patch(
+                    x=[peak_day, end_date, end_date, peak_day],
+                    y=[-100, -100, 2 * max_rate, 2 * max_rate],
+                    fill_color='gray',
+                    fill_alpha=0.3,
+                    line_width=0
+                )
+
+        # Add legend
+        legend = Legend(items=[("effective rate", [ffr_effective]),
+                            ("target rate", [ffr_targ]),
+                            ("target range", [ffr_range]),
+                            ("Recession", [rec_bar])],
+                        location="center")
+
+    else:
+        # Add legend
+        legend = Legend(items=[("effective rate", [ffr_effective]),
+                            ("target rate", [ffr_targ]),
+                            ("target range", [ffr_range])],
+                        location="center")
+
     fig.add_layout(legend, 'right')
 
     # Add title and subtitle to the plot
