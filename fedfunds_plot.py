@@ -19,8 +19,6 @@ from bokeh.io import output_file
 from bokeh.plotting import figure, show
 from bokeh.models import ColumnDataSource, Title, Legend, HoverTool
 from bokeh.models import DatetimeTickFormatter
-# from bokeh.models import Label
-from bokeh.palettes import Category20
 
 '''
 Define functions
