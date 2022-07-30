@@ -208,7 +208,7 @@ def ffrate_plot(beg_date="earliest", end_date="most_recent",
                  # x_range=((beg_date - fig_date_buffer_pct * datarange_dates),
                  #          (end_date + fig_date_buffer_pct * datarange_dates)),
                  tools=['save', 'zoom_in', 'zoom_out', 'box_zoom',
-                        'pan', 'undo', 'redo', 'reset', 'hover', 'help'],
+                        'pan', 'undo', 'redo', 'reset', 'help'],
                  toolbar_location='left')
     fig.title.text_font_size = '18pt'
     fig.toolbar.logo = None
